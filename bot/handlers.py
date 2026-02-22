@@ -10,12 +10,12 @@ dp = Dispatcher()
 
 @dp.message(Command("anekdot"))
 async def handle_anekdot(message: types.Message):
-    # if not can_get_joke(message.from_user.id):
-    #     await bot.send_message(
-    #         message.from_user.id,
-    #         "😅 Ти вже сьогодні отримав анекдот. Приходь завтра!"
-    #     )
-    #     return
+    if not can_get_joke(message.from_user.id):
+        await bot.send_message(
+            message.from_user.id,
+            "😅 Ти вже сьогодні отримав анекдот. Приходь завтра!"
+        )
+        return
 
     try:
         joke = await generate_joke()
