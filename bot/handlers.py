@@ -1,4 +1,4 @@
-from aiogram import Dispatcher
+from aiogram import Dispatcher, F
 from aiogram.filters import Command
 from aiogram import types
 from bot.ai_service import generate_joke
@@ -31,7 +31,7 @@ async def handle_command(message: types.Message):
 
 
 # --- Реакція на будь-яке повідомлення, де є слово "анекдот" ---
-@dp.message()
+@dp.message(F.text)
 async def handle_text(message: types.Message):
     text = message.text.lower()
     if "анекдот" in text:
