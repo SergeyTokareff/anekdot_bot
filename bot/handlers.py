@@ -10,12 +10,12 @@ dp = Dispatcher()
 
 @dp.message(Command("anekdot"))
 async def handle_anekdot(message: types.Message):
-    if not can_get_joke(message.from_user.id):
-        await bot.send_message(
-            message.from_user.id,
-            "😅 Ти вже сьогодні отримав анекдот. Приходь завтра!"
-        )
-        return
+    # if not can_get_joke(message.from_user.id):
+    #     await bot.send_message(
+    #         message.from_user.id,
+    #         "😅 Ти вже сьогодні отримав анекдот. Приходь завтра!"
+    #     )
+    #     return
 
     try:
         joke = await generate_joke()
@@ -24,3 +24,16 @@ async def handle_anekdot(message: types.Message):
         print(e)
 
     await message.reply(joke)
+
+# --- Реакція на команду /anekdot ---
+@dp.message(Command("anekdot"))
+async def handle_command(message: types.Message):
+    await handle_anekdot(message)
+
+
+# --- Реакція на будь-яке повідомлення, де є слово "анекдот" ---
+@dp.message()
+async def handle_text(message: types.Message):
+    text = message.text.lower()
+    if "анекдот" in text:
+        await handle_anekdot(message)
