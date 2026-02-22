@@ -1,17 +1,16 @@
-from aiogram import Bot, Dispatcher, types
+from aiogram import Dispatcher
 from aiogram.filters import Command
-from bot.config import TELEGRAM_TOKEN
+from aiogram import types
 from bot.ai_service import generate_joke
 from bot.limits_service import can_get_joke
 
-bot = Bot(token=TELEGRAM_TOKEN)
 dp = Dispatcher()
 
 
 @dp.message(Command("anekdot"))
 async def handle_anekdot(message: types.Message):
     if not can_get_joke(message.from_user.id):
-        await bot.send_message(
+        await message.bot.send_message(
             message.from_user.id,
             "😅 Ти вже сьогодні отримав анекдот. Приходь завтра!"
         )
