@@ -1,4 +1,4 @@
-import asyncio
+import asyncio, os
 from fastapi import FastAPI, Request
 from aiogram import Bot
 from aiogram.types import Update
@@ -11,7 +11,7 @@ bot = Bot(token=TELEGRAM_TOKEN)
 
 WEBHOOK_PATH = "/webhook"
 WEBHOOK_SECRET = "supersecret"
-WEBHOOK_URL = f"https://anekdot-bot-qraq.onrender.com{WEBHOOK_PATH}"
+WEBHOOK_URL = os.getenv("RENDER_EXTERNAL_URL") + WEBHOOK_PATH
 
 
 @app.on_event("startup")
@@ -20,7 +20,7 @@ async def on_startup():
         url=WEBHOOK_URL,
         secret_token=WEBHOOK_SECRET
     )
-    print("Webhook set!")
+    print("Webhook set:", WEBHOOK_URL)
 
 
 @app.on_event("shutdown")
