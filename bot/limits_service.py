@@ -17,14 +17,16 @@ def save_users(data):
         json.dump(data, f)
 
 
-def can_get_joke(user_id: int) -> bool:
+def can_get_joke(user_id: int, chat_id: int) -> bool:
     users = load_users()
     today = datetime.now().strftime("%Y-%m-%d")
-    user_id = str(user_id)
 
-    if user_id in users and users[user_id] == today:
-        return False
+    key = f"{user_id}_{chat_id}"
 
-    users[user_id] = today
-    save_users(users)
-    return True
+    # якщо користувач ще не отримував сьогодні в цій групі
+    if key not in users or users[key] != today:
+        users[key] = today
+        save_users(users)
+        return True
+
+    return False

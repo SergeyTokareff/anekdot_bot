@@ -9,7 +9,7 @@ dp = Dispatcher()
 
 @dp.message(Command("anekdot"))
 async def handle_anekdot(message: types.Message):
-    if not can_get_joke(message.from_user.id):
+    if not can_get_joke(message.from_user.id, message.chat.id):
         await message.bot.send_message(
             message.from_user.id,
             "😅 Ти вже сьогодні отримав анекдот. Приходь завтра!"
